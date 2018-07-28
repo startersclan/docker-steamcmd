@@ -1,3 +1,3 @@
 # Introduction
 
-Image with dependencies for building and running Source / Goldsource game images.
+Image with steamcmd and dependencies for building Source / Goldsource dedicated server images.
