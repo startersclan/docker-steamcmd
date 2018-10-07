@@ -14,6 +14,9 @@ RUN apt-get update; \
         curl \
         lib32gcc1 \
         lib32stdc++6 \
+        # Game Administration Packages
+        tzdata \
+        git \
     ; \
     locale-gen en_US.UTF-8; \
     curl -sqL "$STEAMCMD_AR_URL" | tar zxvf -
