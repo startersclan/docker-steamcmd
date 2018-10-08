@@ -17,6 +17,7 @@ RUN apt-get update \
         # Game Administration Packages
         tzdata \
         git \
+    && rm -rf /var/lib/apt/lists/* \
     && locale-gen en_US.UTF-8 \
     && curl -sqL "$STEAMCMD_AR_URL" | tar zxvf -
 
