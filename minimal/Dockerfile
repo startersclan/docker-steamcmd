@@ -8,15 +8,14 @@ ARG STEAMCMD_AR_URL=https://steamcdn-a.akamaihd.net/client/installer/steamcmd_li
 
 WORKDIR $STEAMCMD_DIR
 
-RUN apt-get update; \
-    apt-get install -y \
+RUN apt-get update \
+    && apt-get install -y \
         locales \
         curl \
         lib32gcc1 \
         lib32stdc++6 \
-    ; \
-    locale-gen en_US.UTF-8; \
-    curl -sqL "$STEAMCMD_AR_URL" | tar zxvf -
+    && locale-gen en_US.UTF-8 \
+    && curl -sqL "$STEAMCMD_AR_URL" | tar zxvf -
 
 ENV LANG="en_US.UTF-8" \
     LANGUAGE="en_US:en" \
