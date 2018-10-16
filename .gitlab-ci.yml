@@ -24,9 +24,12 @@ build:
     - docker build
       -t "${REGISTRY_USER}/${IMAGE_NAME}:$TAG_GIT"
       -t "${REGISTRY_USER}/${IMAGE_NAME}:latest"
+      -t "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:$TAG_GIT"
+      -t "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:latest"
       $TAG_GIT/
     - docker build
       -t "${REGISTRY_USER}/${IMAGE_NAME}:$TAG_MINIMAL"
+      -t "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:$TAG_MINIMAL"
       $TAG_MINIMAL/
 
     - date
