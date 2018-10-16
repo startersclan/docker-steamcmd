@@ -16,7 +16,7 @@ RUN apt-get update \
         lib32stdc++6 \
     && rm -rf /var/lib/apt/lists/* \
     && locale-gen en_US.UTF-8 \
-    && curl -sqL "$STEAMCMD_AR_URL" | tar zxvf -
+    && curl -sqL "$STEAMCMD_AR_URL" | tar -zxvf -
 
 ENV LANG="en_US.UTF-8" \
     LANGUAGE="en_US:en" \

@@ -21,7 +21,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && locale-gen en_US.UTF-8 \
     && ln -sf /usr/share/zoneinfo/$TIME_ZONE /etc/localtime \
-    && curl -sqL "$STEAMCMD_AR_URL" | tar zxvf -
+    && curl -sqL "$STEAMCMD_AR_URL" | tar -zxvf -
 
 ENV LANG="en_US.UTF-8" \
     LANGUAGE="en_US:en" \
