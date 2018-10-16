@@ -1,0 +1,42 @@
+image: docker:stable
+
+services:
+  - docker:stable-dind
+
+stages:
+  - build
+
+variables:
+  DOCKER_DRIVER: overlay2
+  IMAGE_NAME: steamcmd
+  TAG_GIT: git
+  TAG_MINIMAL: minimal
+
+before_script:
+  # registry login
+  - echo $REGISTRY_PASSWORD | docker login -u $REGISTRY_USER --password-stdin
+  - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+
+build:
+  stage: build
+  script:
+    - date
+    - docker build
+      -t "${REGISTRY_USER}/${IMAGE_NAME}:$TAG_GIT"
+      -t "${REGISTRY_USER}/${IMAGE_NAME}:latest"
+      $TAG_GIT/
+    - docker build
+      -t "${REGISTRY_USER}/${IMAGE_NAME}:$TAG_MINIMAL"
+      $TAG_MINIMAL/
+
+    - date
+    - docker images
+    - docker push "${REGISTRY_USER}/${IMAGE_NAME}"
+    - date
+    - docker push "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}"
+
+    - date
+
+after_script:
+  - docker logout
+  - docker logout $CI_REGISTRY
