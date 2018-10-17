@@ -13,33 +13,47 @@ variables:
   TAG_MINIMAL: minimal
 
 before_script:
-  # registry login
-  - echo $REGISTRY_PASSWORD | docker login -u $REGISTRY_USER --password-stdin
-  - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+  - echo "${PUSH_TO_CI_REGISTRY}"
+
+  # Registry login(s)
+  - echo "${REGISTRY_PASSWORD}" | docker login -u "${REGISTRY_USER}" --password-stdin
+  - if [ "${PUSH_TO_CI_REGISTRY}" = true ]; then
+        echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}";
+    fi
 
 build:
   stage: build
   script:
     - date
     - docker build
-      -t "${REGISTRY_USER}/${IMAGE_NAME}:$TAG_GIT"
       -t "${REGISTRY_USER}/${IMAGE_NAME}:latest"
-      -t "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:$TAG_GIT"
+      -t "${REGISTRY_USER}/${IMAGE_NAME}:${TAG_GIT}"
       -t "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:latest"
-      $TAG_GIT/
+      -t "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${TAG_GIT}"
+      -t "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${TAG_GIT}-${CI_COMMIT_SHA}"
+      "${TAG_GIT}/"
+    - date
     - docker build
-      -t "${REGISTRY_USER}/${IMAGE_NAME}:$TAG_MINIMAL"
-      -t "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:$TAG_MINIMAL"
-      $TAG_MINIMAL/
-
+      -t "${REGISTRY_USER}/${IMAGE_NAME}:${TAG_MINIMAL}"
+      -t "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${TAG_MINIMAL}"
+      -t "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${TAG_MINIMAL}-${CI_COMMIT_SHA}"
+      "${TAG_MINIMAL}/"
     - date
     - docker images
+
+    # Push the image
     - docker push "${REGISTRY_USER}/${IMAGE_NAME}"
     - date
-    - docker push "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}"
-
+    - if [ "${PUSH_TO_CI_REGISTRY}" = true ]; then
+        docker push "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}";
+        date;
+      fi
     - date
+  only:
+    - triggers
 
 after_script:
   - docker logout
-  - docker logout $CI_REGISTRY
+  - if [ "${PUSH_TO_CI_REGISTRY}" = true ]; then
+      docker logout "${CI_REGISTRY}";
+    fi
