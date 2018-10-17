@@ -13,8 +13,6 @@ env:
     - TAG_MINIMAL=minimal
 
 before_script:
-  - echo "${PUSH_TO_CI_REGISTRY}"
-
   # Registry login(s)
   - echo "${REGISTRY_PASSWORD}" | docker login -u "${REGISTRY_USER}" --password-stdin
 
