@@ -1,0 +1,39 @@
+sudo: required
+
+services:
+  - docker
+
+stages:
+  - build
+
+env:
+  global:
+    - IMAGE_NAME=steamcmd
+    - TAG_GIT=git
+    - TAG_MINIMAL=minimal
+
+before_script:
+  - echo "${PUSH_TO_CI_REGISTRY}"
+
+  # Registry login(s)
+  - echo "${REGISTRY_PASSWORD}" | docker login -u "${REGISTRY_USER}" --password-stdin
+
+script:
+  - date
+  - docker build
+    -t "${REGISTRY_USER}/${IMAGE_NAME}:latest"
+    -t "${REGISTRY_USER}/${IMAGE_NAME}:${TAG_GIT}"
+    "${TAG_GIT}/"
+  - date
+  - docker build
+    -t "${REGISTRY_USER}/${IMAGE_NAME}:${TAG_MINIMAL}"
+    "${TAG_MINIMAL}/"
+  - date
+  - docker images
+
+  # Push the image
+  - docker push "${REGISTRY_USER}/${IMAGE_NAME}"
+  - date
+
+after_script:
+  - docker logout
