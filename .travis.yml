@@ -22,16 +22,13 @@ script:
     -t "${REGISTRY_USER}/${IMAGE_NAME}:latest"
     -t "${REGISTRY_USER}/${IMAGE_NAME}:${TAG_GIT}"
     "${TAG_GIT}/"
-  - date
   - docker build
     -t "${REGISTRY_USER}/${IMAGE_NAME}:${TAG_MINIMAL}"
     "${TAG_MINIMAL}/"
-  - date
   - docker images
 
   # Push the image
   - docker push "${REGISTRY_USER}/${IMAGE_NAME}"
-  - date
 
 after_script:
   - docker logout
