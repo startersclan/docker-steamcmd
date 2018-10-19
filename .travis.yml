@@ -4,8 +4,6 @@ services: docker
 env:
   global:
     - IMAGE_NAME=steamcmd
-    - TAG_GIT=git
-    - TAG_MINIMAL=minimal
 
 before_script:
   - echo "${REGISTRY_PASSWORD}" | docker login -u "${REGISTRY_USER}" --password-stdin
@@ -15,11 +13,8 @@ script:
 
   - docker build
     -t "${REGISTRY_USER}/${IMAGE_NAME}:latest"
-    -t "${REGISTRY_USER}/${IMAGE_NAME}:${TAG_GIT}"
-    "${TAG_GIT}/"
-  - docker build
-    -t "${REGISTRY_USER}/${IMAGE_NAME}:${TAG_MINIMAL}"
-    "${TAG_MINIMAL}/"
+    -t "${REGISTRY_USER}/${IMAGE_NAME}:${TAG}"
+    "${TAG}/"
   - docker images
 
   - docker push "${REGISTRY_USER}/${IMAGE_NAME}"
