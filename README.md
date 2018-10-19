@@ -1,6 +1,6 @@
 # Docker-SteamCMD [![Build Status](https://travis-ci.org/theohbrothers/docker-steamcmd.svg?branch=github)](https://travis-ci.org/theohbrothers/docker-steamcmd)
 
-Image with `steamcmd` and dependencies for building **Source** / **GoldSrc** dedicated server images.
+Image with `steamcmd` and dependencies for building **Source** / **Goldsource** dedicated server images.
 
 ## Supported Tags
 
