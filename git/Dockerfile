@@ -9,12 +9,17 @@ ARG TIME_ZONE=Asia/Singapore
 
 WORKDIR $STEAMCMD_DIR
 
-RUN apt-get update \
+RUN dpkg --add-architecture i386
+    && apt-get update \
     && apt-get install -y \
         locales \
         curl \
         lib32gcc1 \
         lib32stdc++6 \
+        lib32z1 \
+        lib32ncurses5 \
+        libbz2-1.0:i386 \
+        libcurl3-gnutls:i386 \
         # Game Administration Packages
         tzdata \
         git \
