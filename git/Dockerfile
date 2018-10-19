@@ -1,7 +1,5 @@
 FROM ubuntu:16.04
 
-MAINTAINER The Oh Brothers
-
 ARG DEBIAN_FRONTEND=noninteractive
 ARG STEAMCMD_DIR=/steamcmd
 ARG STEAMCMD_AR_URL=https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
