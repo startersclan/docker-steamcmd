@@ -12,9 +12,11 @@ script:
   - date
 
   - docker build
-    -t "${REGISTRY_USER}/${IMAGE_NAME}:latest"
     -t "${REGISTRY_USER}/${IMAGE_NAME}:${TAG}"
     "${TAG}/"
+  - if [ "$LATEST" = true ]; then
+      docker tag "${REGISTRY_USER}/${IMAGE_NAME}:${TAG}" "${REGISTRY_USER}/${IMAGE_NAME}:latest";
+    fi
   - docker images
 
   - docker push "${REGISTRY_USER}/${IMAGE_NAME}"
