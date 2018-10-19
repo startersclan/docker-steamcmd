@@ -9,7 +9,7 @@ ARG TIME_ZONE=Asia/Singapore
 
 WORKDIR $STEAMCMD_DIR
 
-RUN dpkg --add-architecture i386
+RUN dpkg --add-architecture i386 \
     && apt-get update \
     && apt-get install -y \
         locales \
