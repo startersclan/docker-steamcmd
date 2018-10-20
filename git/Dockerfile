@@ -18,6 +18,8 @@ RUN dpkg --add-architecture i386 \
         lib32ncurses5 \
         libbz2-1.0:i386 \
         libcurl3-gnutls:i386 \
+        libstdc++6:i386 \
+        libcurl4-gnutls-dev:i386 \
         # Game Administration Packages
         tzdata \
         git \
