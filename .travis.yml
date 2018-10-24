@@ -21,7 +21,7 @@ script:
 
   # Test the image
   - if [ "${NO_TEST_RUN}" != true ]; then
-      docker run --rm "${REGISTRY_USER}/${IMAGE_NAME}:${TAG}" /bin/bash -c "printenv && ls -al && exec steamcmd.sh +login anonymous +quit";
+      docker run -t --rm "${REGISTRY_USER}/${IMAGE_NAME}:${TAG}" /bin/bash -c "printenv && ls -al && exec steamcmd.sh +login anonymous +quit";
     fi
 
   - docker push "${REGISTRY_USER}/${IMAGE_NAME}"
