@@ -9,6 +9,7 @@ WORKDIR $STEAMCMD_DIR
 RUN apt-get update \
     && apt-get install -y \
         locales \
+        ca-certificates \
         curl \
         lib32gcc1 \
         lib32stdc++6 \
