@@ -13,6 +13,7 @@ RUN dpkg --add-architecture i386 \
         locales \
         ca-certificates \
         curl \
+        # Game dependencies
         lib32gcc1 \
         lib32stdc++6 \
         lib32z1 \
@@ -21,7 +22,7 @@ RUN dpkg --add-architecture i386 \
         libcurl3-gnutls:i386 \
         libstdc++6:i386 \
         libcurl4-gnutls-dev:i386 \
-        # Game Administration Packages
+        # Game administration packages
         tzdata \
         git \
     && rm -rf /var/lib/apt/lists/* \

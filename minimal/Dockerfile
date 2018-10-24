@@ -11,6 +11,7 @@ RUN apt-get update \
         locales \
         ca-certificates \
         curl \
+        # Game dependencies
         lib32gcc1 \
         lib32stdc++6 \
     && rm -rf /var/lib/apt/lists/* \
