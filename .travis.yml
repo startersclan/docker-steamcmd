@@ -12,19 +12,19 @@ script:
   - date
 
   - docker build
-    -t "${REGISTRY_USER}/${IMAGE_NAME}:${TAG}"
+    -t "${REGISTRY}/${IMAGE_NAME}:${TAG}"
     "${TAG}/"
   - if [ "$LATEST" = true ]; then
-      docker tag "${REGISTRY_USER}/${IMAGE_NAME}:${TAG}" "${REGISTRY_USER}/${IMAGE_NAME}:latest";
+      docker tag "${REGISTRY}/${IMAGE_NAME}:${TAG}" "${REGISTRY}/${IMAGE_NAME}:latest";
     fi
   - docker images
 
   # Test the image
   - if [ "${NO_TEST_RUN}" != true ]; then
-      docker run -t --rm "${REGISTRY_USER}/${IMAGE_NAME}:${TAG}" /bin/bash -c "printenv && ls -al && exec steamcmd.sh +login anonymous +quit";
+      docker run -t --rm "${REGISTRY}/${IMAGE_NAME}:${TAG}" /bin/bash -c "printenv && ls -al && exec steamcmd.sh +login anonymous +quit";
     fi
 
-  - docker push "${REGISTRY_USER}/${IMAGE_NAME}"
+  - docker push "${REGISTRY}/${IMAGE_NAME}"
 
 after_script:
   - docker logout
