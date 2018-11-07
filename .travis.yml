@@ -12,7 +12,9 @@ before_script:
 
 script:
   - date
+  - docker pull "${REPOSITORY}:${VARIANT}" || true
   - docker build
+    --cache-from "${REPOSITORY}:${VARIANT}"
     -t "${REPOSITORY}:${VARIANT}"
     "${VARIANT}/"
   - if [ "$LATEST" = true ]; then
