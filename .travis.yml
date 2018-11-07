@@ -6,25 +6,26 @@ env:
     - IMAGE_NAME=steamcmd
 
 before_script:
+  - REPOSITORY="${REGISTRY_NAMESPACE}/${IMAGE_NAME}"
+
   - echo "${REGISTRY_PASSWORD}" | docker login -u "${REGISTRY_USER}" --password-stdin
 
 script:
   - date
-
   - docker build
-    -t "${REGISTRY}/${IMAGE_NAME}:${TAG}"
+    -t "${REPOSITORY}:${TAG}"
     "${TAG}/"
   - if [ "$LATEST" = true ]; then
-      docker tag "${REGISTRY}/${IMAGE_NAME}:${TAG}" "${REGISTRY}/${IMAGE_NAME}:latest";
+      docker tag "${REPOSITORY}:${TAG}" "${REPOSITORY}/${IMAGE_NAME}:latest";
     fi
   - docker images
 
   # Test the image
   - if [ "${NO_TEST_RUN}" != true ]; then
-      docker run -t --rm "${REGISTRY}/${IMAGE_NAME}:${TAG}" /bin/bash -c "printenv && ls -al && exec steamcmd.sh +login anonymous +quit";
+      docker run -t --rm "${REPOSITORY}:${TAG}" /bin/bash -c "printenv && ls -al && exec steamcmd.sh +login anonymous +quit";
     fi
 
-  - docker push "${REGISTRY}/${IMAGE_NAME}"
+  - docker push "${REPOSITORY}"
 
 after_script:
   - docker logout
