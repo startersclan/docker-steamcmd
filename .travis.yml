@@ -28,7 +28,7 @@ script:
     fi
 
   - if [ "${NO_PUSH}" != true ]; then
-      docker push "${REPOSITORY}"
+      docker push "${REPOSITORY}";
     fi
 
 after_script:
