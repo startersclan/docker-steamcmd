@@ -27,7 +27,9 @@ script:
       docker run -t --rm "${REPOSITORY}:${VARIANT}" /bin/bash -c "printenv && ls -al && exec steamcmd.sh +login anonymous +quit";
     fi
 
-  - docker push "${REPOSITORY}"
+  - if [ "${NO_PUSH}" != true ]; then
+      docker push "${REPOSITORY}"
+    fi
 
 after_script:
   - docker logout
