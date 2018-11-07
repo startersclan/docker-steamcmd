@@ -8,6 +8,9 @@ env:
 before_script:
   - REPOSITORY="${REGISTRY_NAMESPACE}/${IMAGE_NAME}"
 
+  # Terminate the travis build on any error
+  - set -e
+
   - echo "${REGISTRY_PASSWORD}" | docker login -u "${REGISTRY_USER}" --password-stdin
 
 script:
@@ -33,3 +36,4 @@ script:
 
 after_script:
   - docker logout
+  - set +e
