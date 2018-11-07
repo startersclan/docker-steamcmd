@@ -13,16 +13,16 @@ before_script:
 script:
   - date
   - docker build
-    -t "${REPOSITORY}:${TAG}"
-    "${TAG}/"
+    -t "${REPOSITORY}:${VARIANT}"
+    "${VARIANT}/"
   - if [ "$LATEST" = true ]; then
-      docker tag "${REPOSITORY}:${TAG}" "${REPOSITORY}/${IMAGE_NAME}:latest";
+      docker tag "${REPOSITORY}:${VARIANT}" "${REPOSITORY}:latest";
     fi
   - docker images
 
   # Test the image
   - if [ "${NO_TEST_RUN}" != true ]; then
-      docker run -t --rm "${REPOSITORY}:${TAG}" /bin/bash -c "printenv && ls -al && exec steamcmd.sh +login anonymous +quit";
+      docker run -t --rm "${REPOSITORY}:${VARIANT}" /bin/bash -c "printenv && ls -al && exec steamcmd.sh +login anonymous +quit";
     fi
 
   - docker push "${REPOSITORY}"
