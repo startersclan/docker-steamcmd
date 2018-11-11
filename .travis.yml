@@ -4,6 +4,9 @@ services: docker
 env:
   global:
     - IMAGE_NAME=steamcmd
+  matrix:
+    - VARIANT=minimal
+    - VARIANT=git LATEST=true
 
 before_script:
   - REPOSITORY="${REGISTRY_NAMESPACE}/${IMAGE_NAME}"
