@@ -3,7 +3,6 @@ FROM ubuntu:16.04
 ARG DEBIAN_FRONTEND=noninteractive
 ARG STEAMCMD_DIR=/steamcmd
 ARG STEAMCMD_AR_URL=https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
-ARG TIME_ZONE=Asia/Singapore
 
 WORKDIR $STEAMCMD_DIR
 
@@ -23,7 +22,6 @@ RUN dpkg --add-architecture i386 \
         libstdc++6:i386 \
         libcurl4-gnutls-dev:i386 \
         # Game administration packages
-        tzdata \
         git \
     && rm -rf /var/lib/apt/lists/* \
     && locale-gen en_US.UTF-8 \
