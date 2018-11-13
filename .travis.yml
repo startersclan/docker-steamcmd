@@ -29,11 +29,11 @@ script:
   - docker images
 
   # Test the image
-  - if [ "${NO_TEST_RUN}" != true ]; then
+  - if [ ! "${NO_TEST_RUN}" = true ]; then
       docker run -t --rm "${REPOSITORY}:${VARIANT}" /bin/bash -c "printenv && ls -al && exec steamcmd.sh +login anonymous +quit";
     fi
 
-  - if [ "${NO_PUSH}" != true ]; then
+  - if [ ! "${NO_PUSH}" = true ]; then
       docker push "${REPOSITORY}";
     fi
 
