@@ -12,10 +12,10 @@ env:
     - VARIANT=git LATEST=true
 
 before_script:
-  - REPOSITORY="${REGISTRY_NAMESPACE}/${IMAGE_NAME}"
-
   # Terminate the travis build on any error
   - set -e
+
+  - REPOSITORY="${REGISTRY_NAMESPACE}/${IMAGE_NAME}"
 
   - echo "${REGISTRY_PASSWORD}" | docker login -u "${REGISTRY_USER}" --password-stdin
 
