@@ -4,6 +4,9 @@ services: docker
 env:
   global:
     - IMAGE_NAME=steamcmd
+    - OS = ubuntu
+    - OS_VARIANT=16.04
+    - OS_VARIANT_ARCHIVE=xenial-20181005
   matrix:
     - VARIANT=minimal
     - VARIANT=git LATEST=true
@@ -18,6 +21,9 @@ before_script:
 
 script:
   - date
+  - if [ -n "${OS_VARIANT_ARCHIVE}" ]; then
+      docker tag "{OS}:${OS_VARIANT_ARCHIVE}" "{OS}:${OS_VARIANT}";
+    fi
   - docker pull "${REPOSITORY}:${VARIANT}" || true
   - docker build
     --cache-from "${REPOSITORY}:${VARIANT}"
