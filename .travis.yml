@@ -27,7 +27,7 @@ script:
   - if [ "$LATEST" = true ]; then
       docker tag "${REPOSITORY}:${VARIANT}" "${REPOSITORY}:latest";
     fi
-  - docker inspect "${REPOSITORY}:VARIANT" -f '{{.Config.Labels}}';
+  - docker inspect "${REPOSITORY}:${VARIANT}" -f '{{.Config.Labels}}';
   - docker images
 
   # Test the image
