@@ -4,7 +4,7 @@ services: docker
 env:
   global:
     - IMAGE_NAME=steamcmd
-    - OS = ubuntu
+    - OS=ubuntu
     - OS_VARIANT=16.04
     - OS_VARIANT_ARCHIVE=xenial-20181005
   matrix:
