@@ -22,10 +22,12 @@ script:
   - docker build
     --cache-from "${REPOSITORY}:${VARIANT}"
     -t "${REPOSITORY}:${VARIANT}"
+    --label "game_distributor=steamcmd"
     "${VARIANT}/"
   - if [ "$LATEST" = true ]; then
       docker tag "${REPOSITORY}:${VARIANT}" "${REPOSITORY}:latest";
     fi
+  - docker inspect "${REPOSITORY}:VARIANT" -f '{{.Config.Labels}}';
   - docker images
 
   # Test the image
