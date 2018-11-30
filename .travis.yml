@@ -22,6 +22,7 @@ before_script:
 script:
   - date
   - if [ -n "${OS_VARIANT_ARCHIVE}" ]; then
+      docker pull "${OS}:${OS_VARIANT_ARCHIVE}";
       docker tag "${OS}:${OS_VARIANT_ARCHIVE}" "${OS}:${OS_VARIANT}";
     fi
   - docker pull "${REPOSITORY}:${VARIANT}" || true
