@@ -27,10 +27,10 @@ script:
     fi
   - docker pull "${REPOSITORY}:${VARIANT}" || true
   - docker build
-    --cache-from "${REPOSITORY}:${VARIANT}"
-    -t "${REPOSITORY}:${VARIANT}"
-    --label "game_distributor=steamcmd"
-    "${VARIANT}/"
+      --cache-from "${REPOSITORY}:${VARIANT}"
+      -t "${REPOSITORY}:${VARIANT}"
+      --label "game_distributor=steamcmd"
+      "${VARIANT}/"
   - if [ "$LATEST" = true ]; then
       docker tag "${REPOSITORY}:${VARIANT}" "${REPOSITORY}:latest";
     fi
