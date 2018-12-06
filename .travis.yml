@@ -31,18 +31,18 @@ script:
       -t "${REPOSITORY}:${VARIANT}"
       --label "game_distributor=steamcmd"
       "${VARIANT}/"
-  - if [ "$LATEST" = true ]; then
+  - if [ "$LATEST" = 'true' ]; then
       docker tag "${REPOSITORY}:${VARIANT}" "${REPOSITORY}:latest";
     fi
   - docker inspect "${REPOSITORY}:${VARIANT}" -f '{{.Config.Labels}}';
   - docker images
 
   # Test the image
-  - if [ ! "${NO_TEST}" = true ]; then
+  - if [ ! "${NO_TEST}" = 'true' ]; then
       docker run -t --rm "${REPOSITORY}:${VARIANT}" /bin/bash -c "printenv && ls -al && exec steamcmd.sh +login anonymous +quit";
     fi
 
-  - if [ ! "${NO_PUSH}" = true ]; then
+  - if [ ! "${NO_PUSH}" = 'true' ]; then
       docker push "${REPOSITORY}";
     fi
 
