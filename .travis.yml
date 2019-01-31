@@ -21,10 +21,14 @@ before_script:
 
 script:
   - date
+
+  # Tag the defined os archive image as the os base image to be used for build
   - if [ -n "${OS_VARIANT_ARCHIVE}" ]; then
       docker pull "${OS}:${OS_VARIANT_ARCHIVE}";
       docker tag "${OS}:${OS_VARIANT_ARCHIVE}" "${OS}:${OS_VARIANT}";
     fi
+
+  # Build the steamcmd image
   - docker pull "${REPOSITORY}:${VARIANT}" || true
   - docker build
       --cache-from "${REPOSITORY}:${VARIANT}"
