@@ -38,8 +38,9 @@ script:
   - if [ "$LATEST" = 'true' ]; then
       docker tag "${REPOSITORY}:${VARIANT}" "${REPOSITORY}:latest";
     fi
-  - docker inspect "${REPOSITORY}:${VARIANT}";
   - docker images
+  - docker inspect "${REPOSITORY}:${VARIANT}"
+  - docker history "${REPOSITORY}:${VARIANT}"
 
   # Test the image
   - if [ ! "${NO_TEST}" = 'true' ]; then
