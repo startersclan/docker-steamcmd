@@ -1,0 +1,85 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  - none
+
+variables:
+  IMAGE_NAME: steamcmd
+  OS: ubuntu
+  OS_VARIANT: 16.04
+  OS_VARIANT_ARCHIVE: xenial-20181005
+
+jobs:
+- job: 'Ubuntu_1604_VM'
+  pool:
+    vmImage: 'ubuntu-16.04'
+  strategy:
+    matrix:
+      Minimal:
+        VARIANT: minimal
+      Git:
+        VARIANT: git
+        LATEST: true
+  workspace:
+    clean: all
+  continueOnError: false
+  timeoutInMinutes: 20
+  steps:
+  - script: |
+      whoami
+      cat /etc/*release
+      lscpu
+      df -h
+      free
+      docker info
+      docker version
+    displayName: 'System Info'
+  - script: |
+      echo "${REGISTRY_PASSWORD}" | docker login -u "${REGISTRY_USER}" --password-stdin
+    env:
+      REGISTRY_PASSWORD: $(REGISTRY_PASSWORD)
+    displayName: 'Before Script'
+  - script: |
+      # Terminate the build on any error
+      set -e
+
+      REPOSITORY="${REGISTRY_NAMESPACE}/${IMAGE_NAME}"
+
+      # Tag the defined os archive image as the os base image to be used for build
+      if [ -n "${OS_VARIANT_ARCHIVE}" ]; then
+          docker pull "${OS}:${OS_VARIANT_ARCHIVE}"
+          docker tag "${OS}:${OS_VARIANT_ARCHIVE}" "${OS}:${OS_VARIANT}"
+      fi
+
+      # Build the steamcmd image
+      docker pull "${REPOSITORY}:${VARIANT}" || true
+      docker build \
+          --cache-from "${REPOSITORY}:${VARIANT}" \
+          -t "${REPOSITORY}:${VARIANT}" \
+          --label "game_distributor=steamcmd" \
+          "${VARIANT}/"
+      if [ "$LATEST" = 'true' ]; then
+        docker tag "${REPOSITORY}:${VARIANT}" "${REPOSITORY}:latest"
+      fi
+      docker images
+      docker inspect "${REPOSITORY}:${VARIANT}"
+      docker history "${REPOSITORY}:${VARIANT}"
+
+      # Test the image
+      if [ ! "${NO_TEST}" = 'true' ]; then
+        docker run -t --rm "${REPOSITORY}:${VARIANT}" /bin/bash -c "printenv && ls -al && exec steamcmd.sh +login anonymous +quit"
+      fi
+
+      # Push the image
+      if [ ! "${NO_PUSH}" = 'true' ]; then
+          docker push "${REPOSITORY}"
+          date
+      fi
+    displayName: 'Build Image'
+  - script: |
+      docker logout
+    displayName: 'After Script'
+    condition: always()
