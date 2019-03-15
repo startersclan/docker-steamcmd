@@ -19,10 +19,10 @@ jobs:
   strategy:
     matrix:
       Minimal:
-        VARIANT: minimal
+        VARIANT: 'minimal'
       Git:
-        VARIANT: git
-        LATEST: true
+        VARIANT: 'git'
+        LATEST: 'true'
   workspace:
     clean: all
   continueOnError: false
