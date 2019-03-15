@@ -7,10 +7,10 @@ trigger:
   - none
 
 variables:
-  IMAGE_NAME: steamcmd
-  OS: ubuntu
-  OS_VARIANT: 16.04
-  OS_VARIANT_ARCHIVE: xenial-20181005
+  IMAGE_NAME: 'steamcmd'
+  OS: 'ubuntu'
+  OS_VARIANT: '16.04'
+  OS_VARIANT_ARCHIVE: 'xenial-20181005'
 
 jobs:
 - job: Linux
