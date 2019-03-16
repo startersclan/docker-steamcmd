@@ -8,14 +8,15 @@ trigger:
 
 variables:
   IMAGE_NAME: 'steamcmd'
-  OS: 'ubuntu'
-  OS_VARIANT: '16.04'
-  OS_VARIANT_ARCHIVE: 'xenial-20181005'
 
 jobs:
 - job: Linux
   pool:
     vmImage: 'ubuntu-16.04'
+  variables:
+    OS: 'ubuntu'
+    OS_VARIANT: '16.04'
+    OS_VARIANT_ARCHIVE: 'xenial-20181005'
   strategy:
     matrix:
       Minimal:
