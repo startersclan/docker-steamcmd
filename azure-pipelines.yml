@@ -78,7 +78,7 @@ jobs:
           docker push "${REPOSITORY}"
           date
       fi
-    displayName: 'Build Image'
+    displayName: 'Build SteamCMD Image'
   - script: |
       docker logout
     displayName: 'After Script'
