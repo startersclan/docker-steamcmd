@@ -40,11 +40,13 @@ jobs:
     displayName: 'System Info'
   - script: |
       REPOSITORY="${REGISTRY_NAMESPACE}/${IMAGE_NAME}"
+      REPOSITORY_PUSH="${REGISTRY_NAMESPACE_PUSH}/${IMAGE_NAME}"
 
       echo "${REGISTRY_PASSWORD}" | docker login -u "${REGISTRY_USER}" --password-stdin
 
       # Set job-scoped variables
       echo "##vso[task.setvariable variable=REPOSITORY]${REPOSITORY}"
+      echo "##vso[task.setvariable variable=REPOSITORY_PUSH]${REPOSITORY_PUSH}"
     env:
       REGISTRY_PASSWORD: $(REGISTRY_PASSWORD)
     displayName: 'Before Script'
@@ -60,23 +62,23 @@ jobs:
       docker pull "${REPOSITORY}:${VARIANT}" || true
       docker build \
           --cache-from "${REPOSITORY}:${VARIANT}" \
-          -t "${REPOSITORY}:${VARIANT}" \
+          -t "${REPOSITORY_PUSH}:${VARIANT}" \
           --label "game_distributor=steamcmd" \
           "${VARIANT}/"
       if [ "$LATEST" = 'true' ]; then
-          docker tag "${REPOSITORY}:${VARIANT}" "${REPOSITORY}:latest"
+          docker tag "${REPOSITORY_PUSH}:${VARIANT}" "${REPOSITORY_PUSH}:latest"
       fi
       date
       echo; docker images
-      echo; docker inspect "${REPOSITORY}:${VARIANT}"
-      echo; docker history "${REPOSITORY}:${VARIANT}"
+      echo; docker inspect "${REPOSITORY_PUSH}:${VARIANT}"
+      echo; docker history "${REPOSITORY_PUSH}:${VARIANT}"
     displayName: 'Build SteamCMD Image'
   - script: |
       set -e
       # Test the image
       if [ ! "${NO_TEST}" = 'true' ]; then
           date
-          docker run -t --rm "${REPOSITORY}:${VARIANT}" /bin/bash -c "printenv && echo && ls -al && echo && exec steamcmd.sh +login anonymous +quit"
+          docker run -t --rm "${REPOSITORY_PUSH}:${VARIANT}" /bin/bash -c "printenv && echo && ls -al && echo && exec steamcmd.sh +login anonymous +quit"
           date
       fi
     displayName: 'Test SteamCMD Image'
@@ -85,7 +87,7 @@ jobs:
       # Push the image
       if [ ! "${NO_PUSH}" = 'true' ]; then
           date
-          docker push "${REPOSITORY}"
+          docker push "${REPOSITORY_PUSH}"
           date
       fi
     displayName: 'Push SteamCMD Image'
