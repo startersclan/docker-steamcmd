@@ -8,17 +8,15 @@ jobs:
 - job: Linux
   pool:
     vmImage: 'ubuntu-16.04'
-  variables:
-    OS: 'ubuntu'
-    OS_VARIANT: '16.04'
-    OS_VARIANT_ARCHIVE: 'xenial-20181005'
   strategy:
     matrix:
-      Minimal:
-        VARIANT: 'minimal'
-      Git:
+      Ubuntu-Git:
+        BASE_IMAGE: 'ubuntu:xenial-20181005'
         VARIANT: 'git'
         LATEST: 'true'
+      Ubuntu-Minimal:
+        BASE_IMAGE: 'ubuntu:xenial-20181005'
+        VARIANT: 'minimal'
   workspace:
     clean: all
   continueOnError: false
@@ -45,16 +43,12 @@ jobs:
     displayName: 'Before Script'
   - script: |
       set -e
-      # Tag the defined os archive image as the os base image to be used for build
-      if [ -n "${OS_VARIANT_ARCHIVE}" ]; then
-          docker pull "${OS}:${OS_VARIANT_ARCHIVE}"
-          docker tag "${OS}:${OS_VARIANT_ARCHIVE}" "${OS}:${OS_VARIANT}"
-      fi
-      echo; date
+      date
       # Build the steamcmd image
       docker pull "${REPOSITORY}:${VARIANT}" || true
       docker build \
           --cache-from "${REPOSITORY}:${VARIANT}" \
+          --build-arg BASE_IMAGE="${BASE_IMAGE}" \
           -t "${REPOSITORY}:${VARIANT}" \
           --label "game_distributor=steamcmd" \
           "${VARIANT}/"
