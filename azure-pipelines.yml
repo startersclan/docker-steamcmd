@@ -1,5 +1,5 @@
 trigger:
-  - none
+  - master
 
 variables:
   IMAGE_NAME: 'steamcmd'
