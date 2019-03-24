@@ -5,6 +5,12 @@
 
 Image with `steamcmd` and dependencies for building [**Source** / **Goldsource**](https://github.com/startersclan/docker-sourceservers) dedicated server images.
 
+[![steamcmd-image-version-badge][]][steamcmd-image-layers-link] [![steamcmd-image-layers-badge][]][steamcmd-image-layers-link]
+
+[steamcmd-image-version-badge]: https://images.microbadger.com/badges/version/startersclan/steamcmd.svg
+[steamcmd-image-layers-badge]: https://images.microbadger.com/badges/image/startersclan/steamcmd.svg
+[steamcmd-image-layers-link]: https://microbadger.com/images/startersclan/steamcmd
+
 ## Supported Tags
 
 * `git`, `latest` [(*/git/Dockerfile*)](https://github.com/startersclan/docker-steamcmd/blob/github/git/Dockerfile)
