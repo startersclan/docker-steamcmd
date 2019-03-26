@@ -1,6 +1,6 @@
 # Docker-SteamCMD [![pipeline-default-badge][]][pipeline-default-link]
 
-[pipeline-default-badge]: https://img.shields.io/azure-devops/build/startersclan/docker-steamcmd/1/master.svg?label=Build&logo=&color=brightgreen&style=flat-square
+[pipeline-default-badge]: https://img.shields.io/azure-devops/build/startersclan/docker-steamcmd/1/master.svg?label=Build&logo=&style=flat-square
 [pipeline-default-link]: https://dev.azure.com/startersclan/docker-steamcmd/_build?definitionId=1
 
 Image with `steamcmd` and dependencies for building [**Source** / **Goldsource**](https://github.com/startersclan/docker-sourceservers) dedicated server images.
