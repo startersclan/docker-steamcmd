@@ -1,5 +1,11 @@
 trigger:
-  - master
+  branches:
+    include:
+    - master
+pr:
+  branches:
+    include:
+    - master
 
 variables:
   IMAGE_NAME: 'steamcmd'
