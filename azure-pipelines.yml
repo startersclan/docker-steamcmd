@@ -8,21 +8,21 @@ pr:
     - master
 
 variables:
-  IMAGE_NAME: 'steamcmd'
+  IMAGE_NAME: steamcmd
 
 jobs:
 - job: Linux
   pool:
-    vmImage: 'ubuntu-16.04'
+    vmImage: ubuntu-16.04
   strategy:
     matrix:
       Ubuntu-Git:
-        BASE_IMAGE: 'ubuntu:xenial-20181005'
-        VARIANT: 'git'
-        LATEST: 'true'
+        BASE_IMAGE: ubuntu:xenial-20181005
+        VARIANT: git
+        LATEST: true
       Ubuntu-Minimal:
-        BASE_IMAGE: 'ubuntu:xenial-20181005'
-        VARIANT: 'minimal'
+        BASE_IMAGE: ubuntu:xenial-20181005
+        VARIANT: minimal
   workspace:
     clean: all
   continueOnError: false
@@ -36,7 +36,7 @@ jobs:
       free
       docker info
       docker version
-    displayName: 'System Info'
+    displayName: System Info
   - script: |
       REPOSITORY="${REGISTRY_NAMESPACE}/${IMAGE_NAME}"
 
@@ -46,7 +46,7 @@ jobs:
       echo "##vso[task.setvariable variable=REPOSITORY]${REPOSITORY}"
     env:
       REGISTRY_PASSWORD: $(REGISTRY_PASSWORD)
-    displayName: 'Before Script'
+    displayName: Before Script
   - script: |
       set -e
       date
@@ -65,7 +65,7 @@ jobs:
       echo; docker images
       echo; docker inspect "${REPOSITORY}:${VARIANT}"
       echo; docker history "${REPOSITORY}:${VARIANT}"
-    displayName: 'Build SteamCMD Image'
+    displayName: Build SteamCMD Image
   - script: |
       set -e
       # Test the image
@@ -74,7 +74,7 @@ jobs:
           docker run -t --rm "${REPOSITORY}:${VARIANT}" /bin/bash -c "printenv && echo && ls -al && echo && exec steamcmd.sh +login anonymous +quit"
           date
       fi
-    displayName: 'Test SteamCMD Image'
+    displayName: Test SteamCMD Image
   - script: |
       set -e
       # Push the image
@@ -83,8 +83,8 @@ jobs:
           docker push "${REPOSITORY}"
           date
       fi
-    displayName: 'Push SteamCMD Image'
+    displayName: Push SteamCMD Image
   - script: |
       docker logout
-    displayName: 'After Script'
+    displayName: After Script
     condition: always()
