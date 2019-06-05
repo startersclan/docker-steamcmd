@@ -75,11 +75,9 @@ jobs:
   - script: |
       set -e
       # Test the image
-      if [ ! "${NO_TEST}" = 'true' ]; then
-          date
-          docker run -t --rm "${REPOSITORY}:${VARIANT}" /bin/bash -c "printenv && echo && ls -al && echo && exec steamcmd.sh +login anonymous +quit"
-          date
-      fi
+      date
+      docker run -t --rm "${REPOSITORY}:${VARIANT}" /bin/bash -c "printenv && echo && ls -al && echo && exec steamcmd.sh +login anonymous +quit"
+      date
     displayName: Test SteamCMD Image
   - script: |
       set -e
