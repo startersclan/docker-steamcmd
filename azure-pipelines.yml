@@ -38,6 +38,7 @@ jobs:
       docker version
     displayName: Display system info
   - script: |
+      set -e
       REPOSITORY="${REGISTRY_NAMESPACE}/${IMAGE_NAME}"
       BUILD_TAG=$( echo "${BUILD_SOURCEBRANCH}" | sed -rn 's/^refs\/heads\/build\/(.*)/\1/p' )
 
