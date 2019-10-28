@@ -46,8 +46,7 @@ jobs:
       echo "##vso[task.setvariable variable=REPOSITORY]${REPOSITORY}"
       echo "##vso[task.setvariable variable=BUILD_TAG]${BUILD_TAG}"
     displayName: Process build variables
-  - script: |
-      echo "${REGISTRY_PASSWORD}" | docker login -u "${REGISTRY_USER}" --password-stdin
+  - script: echo "${REGISTRY_PASSWORD}" | docker login -u "${REGISTRY_USER}" --password-stdin
     env:
       REGISTRY_PASSWORD: $(REGISTRY_PASSWORD)
     displayName: Login to docker registry
@@ -74,19 +73,16 @@ jobs:
       docker history "${REPOSITORY}:${VARIANT}"
     displayName: Build image
   - script: |
-      set -e
       # Test the image
       docker run -t --rm "${REPOSITORY}:${VARIANT}" /bin/bash -c "printenv && echo && ls -al && echo && exec steamcmd.sh +login anonymous +quit"
     displayName: Test image
   - script: |
-      set -e
       # Push the image
       if [ -n "${BUILD_TAG}" ]; then
           time docker push "${REPOSITORY}"
       fi
     displayName: Push image
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/build/'))
-  - script: |
-      docker logout
-    displayName: After script
+  - script: docker logout
+    displayName: Clean-up
     condition: always()
