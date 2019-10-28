@@ -91,7 +91,7 @@ jobs:
           date
       fi
     displayName: Push SteamCMD Image
-    condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/build/')
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/build/'))
   - script: |
       docker logout
     displayName: After Script
