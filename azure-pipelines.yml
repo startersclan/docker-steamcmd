@@ -69,9 +69,9 @@ stages:
         if [ -n "${BUILD_TAG}" ]; then
             docker tag "${REPOSITORY}:${VARIANT}" "${REPOSITORY}:${VARIANT}-${BUILD_TAG}"
         fi
-        echo; docker images
-        echo; docker inspect "${REPOSITORY}:${VARIANT}"
-        echo; docker history "${REPOSITORY}:${VARIANT}"
+        docker images
+        docker inspect "${REPOSITORY}:${VARIANT}"
+        docker history "${REPOSITORY}:${VARIANT}"
       displayName: Build SteamCMD Image
     - script: |
         set -e
