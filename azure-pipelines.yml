@@ -26,9 +26,6 @@ jobs:
       Ubuntu-Minimal:
         BASE_IMAGE: ubuntu:xenial-20181005
         VARIANT: minimal
-  workspace:
-    clean: all
-  continueOnError: false
   timeoutInMinutes: 20
   steps:
   - script: |
