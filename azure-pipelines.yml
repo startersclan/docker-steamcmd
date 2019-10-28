@@ -56,8 +56,8 @@ stages:
         set -e
         date
         # Build the steamcmd image
-        docker pull "${REPOSITORY}:${VARIANT}" || true
-        docker build \
+        time docker pull "${REPOSITORY}:${VARIANT}" || true
+        time docker build \
             --cache-from "${REPOSITORY}:${VARIANT}" \
             --build-arg BASE_IMAGE="${BASE_IMAGE}" \
             -t "${REPOSITORY}:${VARIANT}" \
@@ -69,7 +69,6 @@ stages:
         if [ -n "${BUILD_TAG}" ]; then
             docker tag "${REPOSITORY}:${VARIANT}" "${REPOSITORY}:${VARIANT}-${BUILD_TAG}"
         fi
-        date
         echo; docker images
         echo; docker inspect "${REPOSITORY}:${VARIANT}"
         echo; docker history "${REPOSITORY}:${VARIANT}"
@@ -77,17 +76,13 @@ stages:
     - script: |
         set -e
         # Test the image
-        date
         docker run -t --rm "${REPOSITORY}:${VARIANT}" /bin/bash -c "printenv && echo && ls -al && echo && exec steamcmd.sh +login anonymous +quit"
-        date
       displayName: Test SteamCMD Image
     - script: |
         set -e
         # Push the image
         if [ -n "${BUILD_TAG}" ]; then
-            date
-            docker push "${REPOSITORY}"
-            date
+            time docker push "${REPOSITORY}"
         fi
       displayName: Push SteamCMD Image
       condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/build/'))
