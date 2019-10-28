@@ -27,6 +27,7 @@ jobs:
   timeoutInMinutes: 20
   steps:
   - script: |
+      set -e
       hostname
       whoami
       cat /etc/*release
