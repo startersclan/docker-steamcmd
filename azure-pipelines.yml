@@ -10,9 +10,6 @@ pr:
     include:
     - '*'
 
-variables:
-  IMAGE_NAME: steamcmd
-
 jobs:
 - job: Linux
   pool:
@@ -25,6 +22,7 @@ jobs:
       Ubuntu-Minimal:
         VARIANT: minimal
   variables:
+    IMAGE_NAME: steamcmd
     BASE_IMAGE: ubuntu:xenial-20181005
   timeoutInMinutes: 20
   steps:
