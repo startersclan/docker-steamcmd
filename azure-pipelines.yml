@@ -20,12 +20,12 @@ jobs:
   strategy:
     matrix:
       Ubuntu-Git:
-        BASE_IMAGE: ubuntu:xenial-20181005
         VARIANT: git
         LATEST: true
       Ubuntu-Minimal:
-        BASE_IMAGE: ubuntu:xenial-20181005
         VARIANT: minimal
+  variables:
+    BASE_IMAGE: ubuntu:xenial-20181005
   timeoutInMinutes: 20
   steps:
   - script: |
