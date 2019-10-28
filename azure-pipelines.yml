@@ -38,6 +38,7 @@ jobs:
       lscpu
       free
       df -h
+      pwd
       docker info
       docker version
     displayName: System Info
