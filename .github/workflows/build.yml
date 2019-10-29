@@ -49,7 +49,7 @@ jobs:
         docker info
         docker version
     - name: Login to docker registry
-      if: startsWith(github.ref, 'refs/heads/build/')
+      if: startsWith(github.ref, 'refs/heads/build/') && github.repository == 'startersclan/docker-steamcmd'
       env:
         DOCKERHUB_REGISTRY_USER: startersclan
         DOCKERHUB_REGISTRY_PASSWORD: ${{ secrets.DOCKERHUB_REGISTRY_PASSWORD }}
@@ -91,7 +91,7 @@ jobs:
     - name: Test image
       run: docker run -t --rm "${BUILD_REGISTRY_NAMESPACE}/${IMAGE_NAME}:${BUILD_TAG_FULL}" /bin/bash -c "printenv && echo && ls -al && echo && exec steamcmd.sh +login anonymous +quit"
     - name: Push image
-      if: startsWith(github.ref, 'refs/heads/build/')
+      if: startsWith(github.ref, 'refs/heads/build/') && github.repository == 'startersclan/docker-steamcmd'
       run: docker push "${BUILD_REGISTRY_NAMESPACE}/${IMAGE_NAME}"
     - name: Clean-up
       run: docker logout
