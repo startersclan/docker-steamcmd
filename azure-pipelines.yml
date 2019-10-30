@@ -1,9 +1,6 @@
 trigger: none
 pr: none
 
-variables:
-  IMAGE_NAME: steamcmd
-
 jobs:
 - job: Linux
   pool:
@@ -11,45 +8,46 @@ jobs:
   strategy:
     matrix:
       Ubuntu-Git:
-        BASE_IMAGE: ubuntu:xenial-20181005
         VARIANT: git
         LATEST: true
       Ubuntu-Minimal:
-        BASE_IMAGE: ubuntu:xenial-20181005
         VARIANT: minimal
-  workspace:
-    clean: all
-  continueOnError: false
+  variables:
+    IMAGE_NAME: steamcmd
+    BASE_IMAGE: ubuntu:xenial-20181005
   timeoutInMinutes: 20
   steps:
   - script: |
+      set -e
       hostname
       whoami
       cat /etc/*release
       lscpu
       free
       df -h
+      pwd
       docker info
       docker version
-    displayName: System Info
+    displayName: Display system info
   - script: |
+      set -e
       REPOSITORY="${REGISTRY_NAMESPACE}/${IMAGE_NAME}"
       BUILD_TAG=$( echo "${BUILD_SOURCEBRANCH}" | sed -rn 's/^refs\/heads\/build\/(.*)/\1/p' )
-
-      echo "${REGISTRY_PASSWORD}" | docker login -u "${REGISTRY_USER}" --password-stdin
-
-      # Set job-scoped variables
+      ### Set job-scoped variables
       echo "##vso[task.setvariable variable=REPOSITORY]${REPOSITORY}"
       echo "##vso[task.setvariable variable=BUILD_TAG]${BUILD_TAG}"
+    displayName: Process build variables
+  - script: echo "${REGISTRY_PASSWORD}" | docker login -u "${REGISTRY_USER}" --password-stdin
     env:
       REGISTRY_PASSWORD: $(REGISTRY_PASSWORD)
-    displayName: Before Script
+    displayName: Login to docker registry
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/build/'))
   - script: |
       set -e
       date
       # Build the steamcmd image
-      docker pull "${REPOSITORY}:${VARIANT}" || true
-      docker build \
+      time docker pull "${REPOSITORY}:${VARIANT}" || true
+      time docker build \
           --cache-from "${REPOSITORY}:${VARIANT}" \
           --build-arg BASE_IMAGE="${BASE_IMAGE}" \
           -t "${REPOSITORY}:${VARIANT}" \
@@ -61,29 +59,21 @@ jobs:
       if [ -n "${BUILD_TAG}" ]; then
           docker tag "${REPOSITORY}:${VARIANT}" "${REPOSITORY}:${VARIANT}-${BUILD_TAG}"
       fi
-      date
-      echo; docker images
-      echo; docker inspect "${REPOSITORY}:${VARIANT}"
-      echo; docker history "${REPOSITORY}:${VARIANT}"
-    displayName: Build SteamCMD Image
+      docker images
+      docker inspect "${REPOSITORY}:${VARIANT}"
+      docker history "${REPOSITORY}:${VARIANT}"
+    displayName: Build image
   - script: |
-      set -e
       # Test the image
-      date
       docker run -t --rm "${REPOSITORY}:${VARIANT}" /bin/bash -c "printenv && echo && ls -al && echo && exec steamcmd.sh +login anonymous +quit"
-      date
-    displayName: Test SteamCMD Image
+    displayName: Test image
   - script: |
-      set -e
       # Push the image
       if [ -n "${BUILD_TAG}" ]; then
-          date
-          docker push "${REPOSITORY}"
-          date
+          time docker push "${REPOSITORY}"
       fi
-    displayName: Push SteamCMD Image
-    condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/build/')
-  - script: |
-      docker logout
-    displayName: After Script
+    displayName: Push image
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/build/'))
+  - script: docker logout
+    displayName: Clean-up
     condition: always()
