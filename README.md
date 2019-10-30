@@ -1,25 +1,24 @@
-# Docker-SteamCMD [![pipeline-default-badge][]][pipeline-default-link]
+# Docker-SteamCMD
 
-[pipeline-default-badge]: https://img.shields.io/azure-devops/build/startersclan/docker-steamcmd/1/master.svg?label=Build&logo=&style=flat-square
-[pipeline-default-link]: https://dev.azure.com/startersclan/docker-steamcmd/_build?definitionId=1
+ [![badge-build-github-workflows-img][]][badge-build-github-workflows-src] [![badge-size-microbadger-size-tag-img][]][badge-size-microbadger-size-tag-src] [![badge-size-microbadger-layers-tag-img][]][badge-size-microbadger-layers-tag-src]
+
+[badge-build-github-workflows-img]: https://github.com/startersclan/docker-steamcmd/workflows/build/badge.svg
+[badge-build-github-workflows-src]: https://github.com/startersclan/docker-steamcmd/actions
+[badge-size-microbadger-size-tag-img]: https://img.shields.io/microbadger/image-size/startersclan/steamcmd/latest?style=flat-square
+[badge-size-microbadger-size-tag-src]: https://microbadger.com/images/startersclan/steamcmd
+[badge-size-microbadger-layers-tag-img]: https://img.shields.io/microbadger/layers/startersclan/steamcmd/latest?style=flat-square
+[badge-size-microbadger-layers-tag-src]: https://microbadger.com/images/startersclan/steamcmd
+[badge-custom-dockerhub-repo-img]: https://img.shields.io/badge/docker%20hub-startersclan/steamcmd-blue.svg?logo=docker&logoColor=2596EC&color=1B2838&label=&labelColor=&style=flat-square
+[badge-custom-dockerhub-repo-src]: https://hub.docker.com/r/startersclan/steamcmd
 
 Image with `steamcmd` and dependencies for building [**Source** / **Goldsource**](https://github.com/startersclan/docker-sourceservers) dedicated server images.
 
-[![steamcmd-version-badge][]][steamcmd-metadata-link] [![steamcmd-layers-badge][]][steamcmd-metadata-link]
-
-[steamcmd-version-badge]: https://images.microbadger.com/badges/version/startersclan/steamcmd.svg
-[steamcmd-layers-badge]: https://images.microbadger.com/badges/image/startersclan/steamcmd.svg
-[steamcmd-metadata-link]: https://microbadger.com/images/startersclan/steamcmd
-
 ## Supported Tags
 
-* `git`, `latest` [(*/git/Dockerfile*)][dockerfile-git-link]
-* `minimal` [(*/minimal/Dockerfile*)][dockerfile-minimal-link]
+* `git`, `latest` [(*/git/Dockerfile*)][dockerfile-git-src]
+* `minimal` [(*/minimal/Dockerfile*)][dockerfile-minimal-src]
 
-[dockerfile-git-link]: https://github.com/startersclan/docker-steamcmd/blob/master/git/Dockerfile
-[dockerfile-minimal-link]: https://github.com/startersclan/docker-steamcmd/blob/master/minimal/Dockerfile
+[dockerfile-git-src]: https://github.com/startersclan/docker-steamcmd/blob/master/git/Dockerfile
+[dockerfile-minimal-src]: https://github.com/startersclan/docker-steamcmd/blob/master/minimal/Dockerfile
 
-[![steamcmd-dockerhub-badge][]][steamcmd-dockerhub-link]
-
-[steamcmd-dockerhub-badge]: https://img.shields.io/badge/docker%20hub-startersclan/steamcmd-blue.svg?logo=docker&logoColor=2596EC&color=1B2838&label=&labelColor=&style=popout-square
-[steamcmd-dockerhub-link]: https://hub.docker.com/r/startersclan/steamcmd
+[![badge-custom-dockerhub-repo-img][]][badge-custom-dockerhub-repo-src]

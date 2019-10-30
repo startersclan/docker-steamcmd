@@ -1,14 +1,5 @@
-trigger:
-  branches:
-    include:
-    - '*'
-  tags:
-    exclude:
-    - '*'
-pr:
-  branches:
-    include:
-    - master
+trigger: none
+pr: none
 
 jobs:
 - job: Linux
