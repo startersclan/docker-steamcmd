@@ -15,8 +15,8 @@ Image with `steamcmd` and dependencies for building [**Source** / **Goldsource**
 
 ## Supported Tags
 
-* `git`, `latest` [(*/git/Dockerfile*)][dockerfile-git-src]
-* `minimal` [(*/minimal/Dockerfile*)][dockerfile-minimal-src]
+* `git`, `latest` [(*/variants/git/Dockerfile*)][dockerfile-git-src]
+* `minimal` [(*/variants/minimal/Dockerfile*)][dockerfile-minimal-src]
 
 [dockerfile-git-src]: https://github.com/startersclan/docker-steamcmd/blob/master/variants/git/Dockerfile
 [dockerfile-minimal-src]: https://github.com/startersclan/docker-steamcmd/blob/master/variants/minimal/Dockerfile
