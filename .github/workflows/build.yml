@@ -96,5 +96,5 @@ jobs:
       if: startsWith(github.ref, 'refs/heads/build/') && github.repository == 'startersclan/docker-steamcmd'
       run: docker push -a "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}"
     - name: Clean-up
-      run: docker logout
       if: always()
+      run: docker logout
