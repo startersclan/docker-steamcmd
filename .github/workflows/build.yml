@@ -24,14 +24,15 @@ jobs:
           TOOL_VARIANT: git
           TAG_LATEST: true
     env:
-      IMAGE_NAME: steamcmd
       OS: ${{ matrix.OS }}
       OS_VARIANT: ${{ matrix.OS_VARIANT }}
       TOOL_VARIANT: ${{ matrix.TOOL_VARIANT }}
       TAG_LATEST: ${{ matrix.TAG_LATEST }}
       BASE_REGISTRY_NAMESPACE: library
+      BASE_IMAGE_NAME: ${{ matrix.OS }}
       BASE_TAG_FULL: ${{ matrix.OS_VARIANT }}
       BUILD_REGISTRY_NAMESPACE: startersclan
+      BUILD_IMAGE_NAME: steamcmd
       BUILD_TAG_FULL: ${{ matrix.TOOL_VARIANT }}
       BUILD_CONTEXT: variants/${{ matrix.TOOL_VARIANT }}
     steps:
@@ -57,42 +58,43 @@ jobs:
     - name: Build image
       run: |
         set -e
-        echo "IMAGE_NAME: $IMAGE_NAME"
         echo "OS: $OS"
         echo "OS_VARIANT: $OS_VARIANT"
         echo "TOOL_VARIANT: $TOOL_VARIANT"
         echo "TAG_LATEST: $TAG_LATEST"
         echo "BASE_REGISTRY_NAMESPACE: $BASE_REGISTRY_NAMESPACE"
+        echo "BASE_IMAGE_NAME: $BASE_IMAGE_NAME"
         echo "BASE_TAG_FULL: $BASE_TAG_FULL"
         echo "BUILD_REGISTRY_NAMESPACE: $BUILD_REGISTRY_NAMESPACE"
+        echo "BUILD_IMAGE_NAME: $BUILD_IMAGE_NAME"
         echo "BUILD_TAG_FULL: $BUILD_TAG_FULL"
         echo "BUILD_CONTEXT: $BUILD_CONTEXT"
-        echo "BASE_IMAGE: ${BASE_REGISTRY_NAMESPACE}/${OS}:${BASE_TAG_FULL}"
-        echo "BUILD_IMAGE: ${BUILD_REGISTRY_NAMESPACE}/${IMAGE_NAME}:${BUILD_TAG_FULL}"
+        echo "BASE_IMAGE: ${BASE_REGISTRY_NAMESPACE}/${BASE_IMAGE_NAME}:${BASE_TAG_FULL}"
+        echo "BUILD_IMAGE: ${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}"
         TAG_TOOL_ARCHIVE=$(echo "${GITHUB_REF}" | sed -rn 's/^refs\/heads\/build\/(.*)/\1/p')
         echo "TAG_TOOL_ARCHIVE: $TAG_TOOL_ARCHIVE"
         date
-        time docker pull "${BUILD_REGISTRY_NAMESPACE}/${IMAGE_NAME}:${BUILD_TAG_FULL}" || true
+        time docker pull "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}" || true
         time docker build \
-            --cache-from "${BUILD_REGISTRY_NAMESPACE}/${IMAGE_NAME}:${BUILD_TAG_FULL}" \
-            --build-arg BASE_IMAGE="${BASE_REGISTRY_NAMESPACE}/${OS}:${BASE_TAG_FULL}" \
-            -t "${BUILD_REGISTRY_NAMESPACE}/${IMAGE_NAME}:${BUILD_TAG_FULL}" \
+            --cache-from "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}" \
+            --build-arg BASE_IMAGE="${BASE_REGISTRY_NAMESPACE}/${BASE_IMAGE_NAME}:${BASE_TAG_FULL}" \
+            -t "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}" \
             --label "game_distributor=steamcmd" \
             "$BUILD_CONTEXT"
         if [ "${TAG_LATEST}" = 'true' ]; then
-            docker tag "${BUILD_REGISTRY_NAMESPACE}/${IMAGE_NAME}:${BUILD_TAG_FULL}" "${BUILD_REGISTRY_NAMESPACE}/${IMAGE_NAME}:latest"
+            docker tag "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}" "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:latest"
         fi
         if [ -n "${TAG_TOOL_ARCHIVE}" ]; then
-            docker tag "${BUILD_REGISTRY_NAMESPACE}/${IMAGE_NAME}:${BUILD_TAG_FULL}" "${BUILD_REGISTRY_NAMESPACE}/${IMAGE_NAME}:${TOOL_VARIANT}-${TAG_TOOL_ARCHIVE}"
+            docker tag "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}" "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${TOOL_VARIANT}-${TAG_TOOL_ARCHIVE}"
         fi
         docker images
-        docker inspect "${BUILD_REGISTRY_NAMESPACE}/${IMAGE_NAME}:${BUILD_TAG_FULL}"
-        docker history "${BUILD_REGISTRY_NAMESPACE}/${IMAGE_NAME}:${BUILD_TAG_FULL}"
+        docker inspect "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}"
+        docker history "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}"
     - name: Test image
-      run: docker run -t --rm "${BUILD_REGISTRY_NAMESPACE}/${IMAGE_NAME}:${BUILD_TAG_FULL}" /bin/bash -c "printenv && echo && ls -al && echo && exec steamcmd.sh +login anonymous +quit"
+      run: docker run -t --rm "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}" /bin/bash -c "printenv && echo && ls -al && echo && exec steamcmd.sh +login anonymous +quit"
     - name: Push image
       if: startsWith(github.ref, 'refs/heads/build/') && github.repository == 'startersclan/docker-steamcmd'
-      run: docker push "${BUILD_REGISTRY_NAMESPACE}/${IMAGE_NAME}"
+      run: docker push "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}"
     - name: Clean-up
       run: docker logout
       if: always()
