@@ -50,7 +50,7 @@ jobs:
         docker info
         docker version
     - name: Login to docker registry
-      if: startsWith(github.ref, 'refs/heads/build/') && github.repository == 'startersclan/docker-steamcmd'
+      if: startsWith(github.ref, 'refs/tags/') && github.repository == 'startersclan/docker-steamcmd'
       env:
         DOCKERHUB_REGISTRY_USER: startersclan
         DOCKERHUB_REGISTRY_PASSWORD: ${{ secrets.DOCKERHUB_REGISTRY_PASSWORD }}
@@ -71,7 +71,7 @@ jobs:
         echo "BUILD_CONTEXT: $BUILD_CONTEXT"
         echo "BASE_IMAGE: ${BASE_REGISTRY_NAMESPACE}/${BASE_IMAGE_NAME}:${BASE_TAG_FULL}"
         echo "BUILD_IMAGE: ${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}"
-        TAG_TOOL_ARCHIVE=$(echo "${GITHUB_REF}" | sed -rn 's/^refs\/heads\/build\/(.*)/\1/p')
+        TAG_TOOL_ARCHIVE=$(echo "${GITHUB_REF}" | sed -rn 's/^refs\/tags\/(.*)/\1/p')
         echo "TAG_TOOL_ARCHIVE: $TAG_TOOL_ARCHIVE"
         date
         time docker pull "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}" || true
@@ -93,7 +93,7 @@ jobs:
     - name: Test image
       run: docker run -t --rm "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}" /bin/bash -c "printenv && echo && ls -al && echo && exec steamcmd.sh +login anonymous +quit"
     - name: Push image
-      if: startsWith(github.ref, 'refs/heads/build/') && github.repository == 'startersclan/docker-steamcmd'
+      if: startsWith(github.ref, 'refs/tags/') && github.repository == 'startersclan/docker-steamcmd'
       run: docker push -a "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}"
     - name: Clean-up
       if: always()
