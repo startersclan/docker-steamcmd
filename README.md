@@ -1,4 +1,4 @@
-# Docker-SteamCMD
+# docker-steamcmd
 
 [![badge-build-github-workflows-img][]][badge-build-github-workflows-src] [![badge-version-dockerhub-image-badge][]][badge-image-dockerhub-tags-src] [![badge-size-dockerhub-image-badge][]][badge-image-dockerhub-tags-src]
 
