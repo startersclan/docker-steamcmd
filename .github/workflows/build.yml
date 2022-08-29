@@ -17,20 +17,20 @@ jobs:
     strategy:
       matrix:
         OS: [ubuntu]
-        OS_VARIANT: [xenial-20181005]
+        OS_ARCHIVE: [xenial-20181005]
         TOOL_VARIANT: [git, minimal]
         include:
-        - OS_VARIANT: xenial-20181005
+        - OS_ARCHIVE: xenial-20181005
           TOOL_VARIANT: git
           TAG_LATEST: true
     env:
       OS: ${{ matrix.OS }}
-      OS_VARIANT: ${{ matrix.OS_VARIANT }}
+      OS_ARCHIVE: ${{ matrix.OS_ARCHIVE }}
       TOOL_VARIANT: ${{ matrix.TOOL_VARIANT }}
       TAG_LATEST: ${{ matrix.TAG_LATEST }}
       BASE_REGISTRY_NAMESPACE: library
       BASE_IMAGE_NAME: ${{ matrix.OS }}
-      BASE_TAG_FULL: ${{ matrix.OS_VARIANT }}
+      BASE_TAG_FULL: ${{ matrix.OS_ARCHIVE }}
       BUILD_REGISTRY_NAMESPACE: startersclan
       BUILD_IMAGE_NAME: steamcmd
       BUILD_TAG_FULL: ${{ matrix.TOOL_VARIANT }}
@@ -59,7 +59,7 @@ jobs:
       run: |
         set -e
         echo "OS: $OS"
-        echo "OS_VARIANT: $OS_VARIANT"
+        echo "OS_ARCHIVE: $OS_ARCHIVE"
         echo "TOOL_VARIANT: $TOOL_VARIANT"
         echo "TAG_LATEST: $TAG_LATEST"
         echo "BASE_REGISTRY_NAMESPACE: $BASE_REGISTRY_NAMESPACE"
