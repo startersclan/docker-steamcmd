@@ -58,6 +58,7 @@ jobs:
     - name: Build image
       run: |
         set -e
+
         echo "OS: $OS"
         echo "OS_ARCHIVE: $OS_ARCHIVE"
         echo "TOOL_VARIANT: $TOOL_VARIANT"
@@ -73,6 +74,7 @@ jobs:
         echo "BUILD_IMAGE: ${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}"
         TAG_TOOL_ARCHIVE=$(echo "${GITHUB_REF}" | sed -rn 's/^refs\/tags\/(.*)/\1/p')
         echo "TAG_TOOL_ARCHIVE: $TAG_TOOL_ARCHIVE"
+
         date
         time docker pull "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}" || true
         time docker build \
