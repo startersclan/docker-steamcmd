@@ -2,8 +2,8 @@
 
 [![badge-build-github-workflows-img][]][badge-build-github-workflows-src] [![badge-version-dockerhub-image-badge][]][badge-image-dockerhub-tags-src] [![badge-size-dockerhub-image-badge][]][badge-image-dockerhub-tags-src]
 
-[badge-build-github-workflows-img]: https://github.com/startersclan/docker-steamcmd/workflows/build/badge.svg
-[badge-build-github-workflows-src]: https://github.com/startersclan/docker-steamcmd/actions
+[badge-build-github-workflows-img]: https://img.shields.io/github/workflow/status/startersclan/docker-steamcmd/build/master?&label=build&logo=github&style=flat-square
+[badge-build-github-workflows-src]: https://github.com/startersclan/docker-steamcmd/actions?query=branch%3Amaster
 [badge-image-dockerhub-src]: https://hub.docker.com/r/startersclan/steamcmd
 [badge-image-dockerhub-tags-src]: https://hub.docker.com/r/startersclan/steamcmd/tags
 [badge-version-dockerhub-image-badge]: https://img.shields.io/docker/v/startersclan/steamcmd/latest?label=image%20tag&style=flat-square
