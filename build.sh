@@ -115,7 +115,11 @@ docker run -t --rm --entrypoint /bin/bash "$BUILD_IMAGE" -c "printenv && ls -al 
 
 # Push the image
 if [ -n "${RELEASE_TAG_REF}" ]; then
-    docker push -a "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}"
+    docker push "$BUILD_IMAGE"
+    if [ -n "${TAG_LATEST}" ]; then
+        docker push "$BUILD_IMAGE_LATEST"
+    fi
+    docker push "$BUILD_IMAGE_RELEASE"
 fi
 
 # Docker registry logout
