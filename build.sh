@@ -7,18 +7,18 @@
 ##################################################################################
 
 ## User variables ##
-# DOCKERHUB_REGISTRY_USER=                # string - docker hub username - required
-# DOCKERHUB_REGISTRY_PASSWORD=            # string - docker hub password or api key - required
+# DOCKERHUB_REGISTRY_USER=                  # string - docker hub username - required
+# DOCKERHUB_REGISTRY_PASSWORD=              # string - docker hub password or api key - required
 
 ## build variables ##
-# BASE_IMAGE_NAME=ubuntu                               # string - OS image namespace - required
-# BASE_IMAGE_TAG=xenial-20181005              # string - OS image tag - required
-# BUILD_IMAGE_VARIANT=git                        # string - variant to build - required
-# TAG_LATEST=true                         # bool - tag image with `:latest` - optional
-# BASE_REGISTRY_NAMESPACE=library         # string - user or organization namespace of base image - required
-# BUILD_REGISTRY_NAMESPACE=startersclan   # string - user or organization namespace for build image - required
-# BUILD_IMAGE_NAME=steamcmd               # string - build image namespace - required
-# RELEASE_TAG_REF=                       # string - release tag - optional
+# BASE_IMAGE_NAME=ubuntu                    # string - OS image namespace - required
+# BASE_IMAGE_TAG=xenial-20181005            # string - OS image tag - required
+# BUILD_IMAGE_VARIANT=git                   # string - variant to build - required
+# TAG_LATEST=true                           # bool - tag image with `:latest` - optional
+# BASE_REGISTRY_NAMESPACE=library           # string - base image user or organization namespace - required
+# BUILD_REGISTRY_NAMESPACE=startersclan     # string - build image user or organization namespace - required
+# BUILD_IMAGE_NAME=steamcmd                 # string - build image namespace - required
+# RELEASE_TAG_REF=                          # string - release tag - optional
 
 #############################  End of CI variables  ##############################
 
