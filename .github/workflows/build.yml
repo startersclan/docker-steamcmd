@@ -38,5 +38,5 @@ jobs:
         export RELEASE_TAG_REF=$(echo "${GITHUB_REF}" | sed -rn 's/^refs\/tags\/(.*)/\1/p')
         ./build.sh
       env:
-        DOCKERHUB_REGISTRY_USER: startersclan
+        DOCKERHUB_REGISTRY_USER: ${{ secrets.DOCKERHUB_REGISTRY_USER }}
         DOCKERHUB_REGISTRY_PASSWORD: ${{ secrets.DOCKERHUB_REGISTRY_PASSWORD }}
