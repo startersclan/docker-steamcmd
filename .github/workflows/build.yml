@@ -16,17 +16,17 @@ jobs:
     timeout-minutes: 20
     strategy:
       matrix:
-        OS: [ubuntu]
-        OS_ARCHIVE: [xenial-20181005]
-        TOOL_VARIANT: [git, minimal]
+        BASE_IMAGE_NAME: [ubuntu]
+        BASE_IMAGE_TAG: [xenial-20181005]
+        BUILD_IMAGE_VARIANT: [git, minimal]
         include:
-        - OS_ARCHIVE: xenial-20181005
-          TOOL_VARIANT: git
+        - BASE_IMAGE_TAG: xenial-20181005
+          BUILD_IMAGE_VARIANT: git
           TAG_LATEST: true
     env:
-      OS: ${{ matrix.OS }}
-      OS_ARCHIVE: ${{ matrix.OS_ARCHIVE }}
-      TOOL_VARIANT: ${{ matrix.TOOL_VARIANT }}
+      BASE_IMAGE_NAME: ${{ matrix.BASE_IMAGE_NAME }}
+      BASE_IMAGE_TAG: ${{ matrix.BASE_IMAGE_TAG }}
+      BUILD_IMAGE_VARIANT: ${{ matrix.BUILD_IMAGE_VARIANT }}
       TAG_LATEST: ${{ matrix.TAG_LATEST }}
       BASE_REGISTRY_NAMESPACE: library
       BUILD_REGISTRY_NAMESPACE: startersclan
@@ -35,7 +35,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Build, test, push image
       run: |
-        export TAG_TOOL_ARCHIVE=$(echo "${GITHUB_REF}" | sed -rn 's/^refs\/tags\/(.*)/\1/p')
+        export RELEASE_TAG_REF=$(echo "${GITHUB_REF}" | sed -rn 's/^refs\/tags\/(.*)/\1/p')
         ./build.sh
       env:
         DOCKERHUB_REGISTRY_USER: startersclan
