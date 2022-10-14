@@ -11,13 +11,13 @@
 # DOCKERHUB_REGISTRY_PASSWORD=              # string - docker hub password or api key - required
 
 ## build variables ##
+# BASE_REGISTRY_NAMESPACE=library           # string - base image user or organization namespace - required
 # BASE_IMAGE_NAME=ubuntu                    # string - OS image namespace - required
 # BASE_IMAGE_TAG=xenial-20181005            # string - OS image tag - required
-# BUILD_IMAGE_VARIANT=git                   # string - variant to build - required
-# TAG_LATEST=true                           # bool - tag image with `:latest` - optional
-# BASE_REGISTRY_NAMESPACE=library           # string - base image user or organization namespace - required
 # BUILD_REGISTRY_NAMESPACE=startersclan     # string - build image user or organization namespace - required
 # BUILD_IMAGE_NAME=steamcmd                 # string - build image namespace - required
+# BUILD_IMAGE_VARIANT=git                   # string - variant to build - required
+# TAG_LATEST=true                           # bool - tag image with `:latest` - optional
 # RELEASE_TAG_REF=                          # string - release tag - optional
 
 #############################  End of CI variables  ##############################
@@ -29,21 +29,21 @@ if [ -n "${RELEASE_TAG_REF}" ]; then
 fi
 
 # Process job variables
+BASE_REGISTRY_NAMESPACE=${BASE_REGISTRY_NAMESPACE:?err}
 BASE_IMAGE_NAME=${BASE_IMAGE_NAME:?err}
 BASE_IMAGE_TAG=${BASE_IMAGE_TAG:?err}
-BUILD_IMAGE_VARIANT=${BUILD_IMAGE_VARIANT:?err}
-TAG_LATEST=${TAG_LATEST:-}
-BASE_REGISTRY_NAMESPACE=${BASE_REGISTRY_NAMESPACE:?err}
 BUILD_REGISTRY_NAMESPACE=${BUILD_REGISTRY_NAMESPACE:?err}
 BUILD_IMAGE_NAME=${BUILD_IMAGE_NAME:?err}
+BUILD_IMAGE_VARIANT=${BUILD_IMAGE_VARIANT:?err}
+TAG_LATEST=${TAG_LATEST:-}
 RELEASE_TAG_REF=${RELEASE_TAG_REF:-}
 
 # Process default job variables
 BASE_IMAGE_TAG_FULL="$BASE_IMAGE_TAG"
 BUILD_IMAGE_TAG_FULL="$BUILD_IMAGE_VARIANT"
-BUILD_CONTEXT="variants/$BUILD_IMAGE_VARIANT"
 BASE_IMAGE="${BASE_REGISTRY_NAMESPACE}/${BASE_IMAGE_NAME}:${BASE_IMAGE_TAG_FULL}"
 BUILD_IMAGE="${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_IMAGE_TAG_FULL}"
+BUILD_CONTEXT="variants/$BUILD_IMAGE_VARIANT"
 if [ -n "${TAG_LATEST}" ]; then
     BUILD_IMAGE_LATEST="${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:latest"
 fi
@@ -71,14 +71,14 @@ if [ -n "${RELEASE_TAG_REF}" ]; then
 fi
 
 # Print job variables
+echo "BASE_REGISTRY_NAMESPACE: $BASE_REGISTRY_NAMESPACE"
 echo "BASE_IMAGE_NAME: $BASE_IMAGE_NAME"
 echo "BASE_IMAGE_TAG: $BASE_IMAGE_TAG"
-echo "BUILD_IMAGE_VARIANT: $BUILD_IMAGE_VARIANT"
-echo "TAG_LATEST: $TAG_LATEST"
-echo "BASE_REGISTRY_NAMESPACE: $BASE_REGISTRY_NAMESPACE"
-echo "BASE_IMAGE_TAG_FULL: $BASE_IMAGE_TAG_FULL"
 echo "BUILD_REGISTRY_NAMESPACE: $BUILD_REGISTRY_NAMESPACE"
 echo "BUILD_IMAGE_NAME: $BUILD_IMAGE_NAME"
+echo "BUILD_IMAGE_VARIANT: $BUILD_IMAGE_VARIANT"
+echo "TAG_LATEST: $TAG_LATEST"
+echo "BASE_IMAGE_TAG_FULL: $BASE_IMAGE_TAG_FULL"
 echo "BUILD_IMAGE_TAG_FULL: $BUILD_IMAGE_TAG_FULL"
 echo "BUILD_CONTEXT: $BUILD_CONTEXT"
 echo "BASE_IMAGE: $BASE_IMAGE"
