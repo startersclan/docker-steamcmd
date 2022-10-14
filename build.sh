@@ -58,11 +58,12 @@ docker version
 # Terminate the build on errors
 set -e
 
-# Login to docker registry
+# Docker registry login
 if [ -n "${TAG_TOOL_ARCHIVE}" ]; then
     echo "${DOCKERHUB_REGISTRY_PASSWORD}" | docker login -u "${DOCKERHUB_REGISTRY_USER}" --password-stdin
 fi
 
+# Print job variables
 echo "OS: $OS"
 echo "OS_ARCHIVE: $OS_ARCHIVE"
 echo "TOOL_VARIANT: $TOOL_VARIANT"
@@ -78,7 +79,7 @@ echo "BASE_IMAGE: ${BASE_REGISTRY_NAMESPACE}/${BASE_IMAGE_NAME}:${BASE_TAG_FULL}
 echo "BUILD_IMAGE: ${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}"
 echo "TAG_TOOL_ARCHIVE: $TAG_TOOL_ARCHIVE"
 
-# Build image
+# Build the image
 date
 time docker pull "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}" || true
 time docker build \
@@ -97,15 +98,15 @@ docker images
 docker inspect "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}"
 docker history "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}"
 
-# Test image
+# Test the image
 docker run -t --rm --entrypoint /bin/bash "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}" -c "printenv && ls -al && exec steamcmd.sh +login anonymous +quit"
 
-# Push image
+# Push the image
 if [ -n "${TAG_TOOL_ARCHIVE}" ]; then
     docker push -a "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}"
 fi
 
-# Clean-up
+# Docker registry logout
 if [ -n "${TAG_TOOL_ARCHIVE}" ]; then
     docker logout
 fi
