@@ -98,7 +98,7 @@ docker inspect "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL
 docker history "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}"
 
 # Test image
-docker run -t --rm "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}" /bin/bash -c "printenv && echo && ls -al && echo && exec steamcmd.sh +login anonymous +quit"
+docker run -t --rm --entrypoint /bin/bash "${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_TAG_FULL}" -c "printenv && ls -al && exec steamcmd.sh +login anonymous +quit"
 
 # Push image
 if [ -n "${TAG_TOOL_ARCHIVE}" ]; then
