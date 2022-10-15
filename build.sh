@@ -23,7 +23,7 @@
 #############################  End of CI variables  ##############################
 
 # Process user variables
-if [ -n "${RELEASE_TAG_REF}" ]; then
+if [ -n "$RELEASE_TAG_REF" ]; then
     DOCKERHUB_REGISTRY_USER=${DOCKERHUB_REGISTRY_USER:?err}
     DOCKERHUB_REGISTRY_PASSWORD=${DOCKERHUB_REGISTRY_PASSWORD:?err}
 fi
@@ -41,14 +41,14 @@ RELEASE_TAG_REF=${RELEASE_TAG_REF:-}
 # Process default job variables
 BASE_IMAGE_TAG_FULL="$BASE_IMAGE_TAG"
 BUILD_IMAGE_TAG_FULL="$BUILD_IMAGE_VARIANT"
-BASE_IMAGE="${BASE_REGISTRY_NAMESPACE}/${BASE_IMAGE_NAME}:${BASE_IMAGE_TAG_FULL}"
-BUILD_IMAGE="${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_IMAGE_TAG_FULL}"
+BASE_IMAGE="$BASE_REGISTRY_NAMESPACE/$BASE_IMAGE_NAME:$BASE_IMAGE_TAG_FULL"
+BUILD_IMAGE="$BUILD_REGISTRY_NAMESPACE/$BUILD_IMAGE_NAME:$BUILD_IMAGE_TAG_FULL"
 BUILD_CONTEXT="variants/$BUILD_IMAGE_VARIANT"
-if [ -n "${TAG_LATEST}" ]; then
-    BUILD_IMAGE_LATEST="${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:latest"
+if [ -n "$TAG_LATEST" ]; then
+    BUILD_IMAGE_LATEST="$BUILD_REGISTRY_NAMESPACE/$BUILD_IMAGE_NAME:latest"
 fi
-if [ -n "${RELEASE_TAG_REF}" ]; then
-    BUILD_IMAGE_RELEASE="${BUILD_REGISTRY_NAMESPACE}/${BUILD_IMAGE_NAME}:${BUILD_IMAGE_TAG_FULL}-$RELEASE_TAG_REF"
+if [ -n "$RELEASE_TAG_REF" ]; then
+    BUILD_IMAGE_RELEASE="$BUILD_REGISTRY_NAMESPACE/$BUILD_IMAGE_NAME:$BUILD_IMAGE_TAG_FULL-$RELEASE_TAG_REF"
 fi
 
 # Display system info
@@ -66,8 +66,8 @@ docker version
 set -e
 
 # Docker registry login
-if [ -n "${RELEASE_TAG_REF}" ]; then
-    echo "${DOCKERHUB_REGISTRY_PASSWORD}" | docker login -u "${DOCKERHUB_REGISTRY_USER}" --password-stdin
+if [ -n "$RELEASE_TAG_REF" ]; then
+    echo "$DOCKERHUB_REGISTRY_PASSWORD" | docker login -u "$DOCKERHUB_REGISTRY_USER" --password-stdin
 fi
 
 # Print job variables
@@ -83,10 +83,10 @@ echo "BUILD_IMAGE_TAG_FULL: $BUILD_IMAGE_TAG_FULL"
 echo "BUILD_CONTEXT: $BUILD_CONTEXT"
 echo "BASE_IMAGE: $BASE_IMAGE"
 echo "BUILD_IMAGE: $BUILD_IMAGE"
-if [ -n "${TAG_LATEST}" ]; then
+if [ -n "$TAG_LATEST" ]; then
     echo "BUILD_IMAGE_LATEST: $BUILD_IMAGE_LATEST"
 fi
-if [ -n "${RELEASE_TAG_REF}" ]; then
+if [ -n "$RELEASE_TAG_REF" ]; then
     echo "RELEASE_TAG_REF: $RELEASE_TAG_REF"
     echo "BUILD_IMAGE_RELEASE: $BUILD_IMAGE_RELEASE"
 fi
@@ -100,10 +100,10 @@ time docker build \
     --build-arg BASE_IMAGE="$BASE_IMAGE" \
     --label "game_distributor=steamcmd" \
     "$BUILD_CONTEXT"
-if [ "${TAG_LATEST}" = 'true' ]; then
+if [ "$TAG_LATEST" = 'true' ]; then
     docker tag "$BUILD_IMAGE" "$BUILD_IMAGE_LATEST"
 fi
-if [ -n "${RELEASE_TAG_REF}" ]; then
+if [ -n "$RELEASE_TAG_REF" ]; then
     docker tag "$BUILD_IMAGE" "$BUILD_IMAGE_RELEASE"
 fi
 docker images
@@ -114,15 +114,15 @@ docker history "$BUILD_IMAGE"
 docker run -t --rm --entrypoint /bin/bash "$BUILD_IMAGE" -c "printenv && ls -al && exec steamcmd.sh +login anonymous +quit"
 
 # Push the image
-if [ -n "${RELEASE_TAG_REF}" ]; then
+if [ -n "$RELEASE_TAG_REF" ]; then
     docker push "$BUILD_IMAGE"
-    if [ -n "${TAG_LATEST}" ]; then
+    if [ -n "$TAG_LATEST" ]; then
         docker push "$BUILD_IMAGE_LATEST"
     fi
     docker push "$BUILD_IMAGE_RELEASE"
 fi
 
 # Docker registry logout
-if [ -n "${RELEASE_TAG_REF}" ]; then
+if [ -n "$RELEASE_TAG_REF" ]; then
     docker logout
 fi
