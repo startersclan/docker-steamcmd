@@ -98,7 +98,7 @@ time docker build \
     --cache-from "$BUILD_IMAGE" \
     -t "$BUILD_IMAGE" \
     --build-arg BASE_IMAGE="$BASE_IMAGE" \
-    --label "game_distributor=steamcmd" \
+    --label 'game_distributor=steamcmd' \
     "$BUILD_CONTEXT"
 if [ "$TAG_LATEST" = 'true' ]; then
     docker tag "$BUILD_IMAGE" "$BUILD_IMAGE_LATEST"
@@ -111,7 +111,7 @@ docker inspect "$BUILD_IMAGE"
 docker history "$BUILD_IMAGE"
 
 # Test the image
-docker run -t --rm --entrypoint /bin/bash "$BUILD_IMAGE" -c "printenv && ls -al && exec steamcmd.sh +login anonymous +quit"
+docker run -t --rm --entrypoint /bin/bash "$BUILD_IMAGE" -c 'printenv && ls -al && exec steamcmd.sh +login anonymous +quit'
 
 # Push the image
 if [ -n "$RELEASE_TAG_REF" ]; then
