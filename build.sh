@@ -111,7 +111,7 @@ docker inspect "$BUILD_IMAGE"
 docker history "$BUILD_IMAGE"
 
 # Test the image
-docker run -t --rm --entrypoint /bin/bash "$BUILD_IMAGE" -c 'printenv && ls -al && exec steamcmd.sh +login anonymous +quit'
+docker run -t --rm --entrypoint /bin/sh "$BUILD_IMAGE" -c 'printenv && ls -al && exec steamcmd.sh +login anonymous +quit'
 
 # Push the image
 if [ -n "$RELEASE_TAG_REF" ]; then
