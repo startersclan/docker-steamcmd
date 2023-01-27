@@ -40,3 +40,17 @@ jobs:
       env:
         DOCKERHUB_REGISTRY_USER: ${{ vars.DOCKERHUB_REGISTRY_USER }}
         DOCKERHUB_REGISTRY_PASSWORD: ${{ secrets.DOCKERHUB_REGISTRY_PASSWORD }}
+
+  dockerhub-description:
+    runs-on: ubuntu-20.04
+    needs: linux
+    if: github.ref == 'refs/heads/master'
+    steps:
+    - uses: actions/checkout@v3
+    - uses: peter-evans/dockerhub-description@v3
+      with:
+        username: ${{ vars.DOCKERHUB_REGISTRY_USER }}
+        password: ${{ secrets.DOCKERHUB_REGISTRY_PASSWORD }}
+        repository: ${{ vars.DOCKERHUB_REGISTRY_USER }}/steamcmd
+        short-description: ${{ github.event.repository.description }}
+        readme-filepath: README.md
