@@ -27,7 +27,7 @@ jobs:
       BASE_REGISTRY_NAMESPACE: library
       BASE_IMAGE_NAME: ${{ matrix.BASE_IMAGE_NAME }}
       BASE_IMAGE_TAG: ${{ matrix.BASE_IMAGE_TAG }}
-      BUILD_REGISTRY_NAMESPACE: startersclan
+      BUILD_REGISTRY_NAMESPACE: ${{ vars.DOCKERHUB_REGISTRY_USER }}
       BUILD_IMAGE_NAME: steamcmd
       BUILD_IMAGE_VARIANT: ${{ matrix.BUILD_IMAGE_VARIANT }}
       TAG_LATEST: ${{ matrix.TAG_LATEST }}
