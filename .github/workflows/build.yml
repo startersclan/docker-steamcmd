@@ -32,7 +32,7 @@ jobs:
       BUILD_IMAGE_VARIANT: ${{ matrix.BUILD_IMAGE_VARIANT }}
       TAG_LATEST: ${{ matrix.TAG_LATEST }}
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
     - name: Build, test, push image
       run: |
         export RELEASE_TAG_REF=$( echo "$GITHUB_REF" | sed -rn 's/^refs\/tags\/(.*)/\1/p' )
