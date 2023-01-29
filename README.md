@@ -2,7 +2,7 @@
 
 [![badge-build-github-workflows-img][]][badge-build-github-workflows-src] [![badge-version-dockerhub-image-badge][]][badge-image-dockerhub-tags-src] [![badge-size-dockerhub-image-badge][]][badge-image-dockerhub-tags-src]
 
-[badge-build-github-workflows-img]: https://img.shields.io/github/actions/workflow/status/startersclan/docker-steamcmd/ci-master-pr.yml?branch=master&label=build&logo=github&style=flat-square
+[badge-build-github-workflows-img]: https://img.shields.io/github/actions/workflow/status/startersclan/docker-steamcmd/ci-master-pr.yml?branch=master&label=ci-master-pr&logo=github&style=flat-square
 [badge-build-github-workflows-src]: https://github.com/startersclan/docker-steamcmd/actions?query=branch%3Amaster
 [badge-image-dockerhub-src]: https://hub.docker.com/r/startersclan/steamcmd
 [badge-image-dockerhub-tags-src]: https://hub.docker.com/r/startersclan/steamcmd/tags
