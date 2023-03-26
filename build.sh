@@ -98,7 +98,7 @@ time docker build \
     --cache-from "$BUILD_IMAGE" \
     -t "$BUILD_IMAGE" \
     --build-arg BASE_IMAGE="$BASE_IMAGE" \
-    --label 'game_distributor=steamcmd' \
+    --label "game_platform=steam" \
     "$BUILD_CONTEXT"
 if [ "$TAG_LATEST" = 'true' ]; then
     docker tag "$BUILD_IMAGE" "$BUILD_IMAGE_LATEST"
