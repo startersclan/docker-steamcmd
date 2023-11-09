@@ -17,10 +17,10 @@ jobs:
     strategy:
       matrix:
         BASE_IMAGE_NAME: [ubuntu]
-        BASE_IMAGE_TAG: [xenial-20181005]
+        BASE_IMAGE_TAG: [focal-20231003]
         BUILD_IMAGE_VARIANT: [git, minimal]
         include:
-        - BASE_IMAGE_TAG: xenial-20181005
+        - BASE_IMAGE_TAG: focal-20231003
           BUILD_IMAGE_VARIANT: git
           TAG_LATEST: true
     env:
