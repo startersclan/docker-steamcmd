@@ -17,7 +17,7 @@ RUN dpkg --add-architecture i386 \
         lib32gcc1 \
         lib32stdc++6 \
         lib32z1 \
-        lib32ncurses5 \
+        libncurses5:i386 \
         libbz2-1.0:i386 \
         libcurl3-gnutls:i386 \
         libstdc++6:i386 \
