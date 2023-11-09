@@ -24,6 +24,11 @@ RUN dpkg --add-architecture i386 \
         libcurl4-gnutls-dev:i386 \
         # Game administration packages
         git \
+        # Text editors
+        vim-tiny \
+        nano \
+        # Network tools
+        conntrack dnsutils iproute2 netcat net-tools tcpdump \
     && rm -rf /var/lib/apt/lists/* \
     && locale-gen en_US.UTF-8 \
     && curl -sqL "$STEAMCMD_AR_URL" | tar -zxvf -
