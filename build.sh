@@ -13,7 +13,7 @@
 ## build variables ##
 # BASE_REGISTRY_NAMESPACE=library           # string - base image user or organization namespace - required
 # BASE_IMAGE_NAME=ubuntu                    # string - OS image namespace - required
-# BASE_IMAGE_TAG=xenial-20181005            # string - OS image tag - required
+# BASE_IMAGE_TAG=focal-20231003            # string - OS image tag - required
 # BUILD_REGISTRY_NAMESPACE=startersclan     # string - build image user or organization namespace - required
 # BUILD_IMAGE_NAME=steamcmd                 # string - build image namespace - required
 # BUILD_IMAGE_VARIANT=git                   # string - variant to build - required
