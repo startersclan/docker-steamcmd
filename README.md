@@ -1,14 +1,8 @@
 # docker-steamcmd
 
-[![badge-build-github-workflows-img][]][badge-build-github-workflows-src] [![badge-version-dockerhub-image-badge][]][badge-image-dockerhub-tags-src] [![badge-size-dockerhub-image-badge][]][badge-image-dockerhub-tags-src]
-
-[badge-build-github-workflows-img]: https://img.shields.io/github/actions/workflow/status/startersclan/docker-steamcmd/ci-master-pr.yml?branch=master&label=ci-master-pr&logo=github&style=flat-square
-[badge-build-github-workflows-src]: https://github.com/startersclan/docker-steamcmd/actions?query=branch%3Amaster
-[badge-image-dockerhub-src]: https://hub.docker.com/r/startersclan/steamcmd
-[badge-image-dockerhub-tags-src]: https://hub.docker.com/r/startersclan/steamcmd/tags
-[badge-version-dockerhub-image-badge]: https://img.shields.io/docker/v/startersclan/steamcmd/latest?label=image%20tag&style=flat-square
-[badge-size-dockerhub-image-badge]: https://img.shields.io/docker/image-size/startersclan/steamcmd/latest?style=flat-square
-[badge-custom-dockerhub-repo-img]: https://img.shields.io/badge/docker%20hub-startersclan/steamcmd-blue.svg?logo=docker&logoColor=2596EC&color=1B2838&label=&labelColor=&style=popout-square
+[![github-workflows](https://img.shields.io/github/actions/workflow/status/startersclan/docker-steamcmd/ci-master-pr.yml?label=ci-master-pr&logo=github&style=flat-square)](https://github.com/startersclan/docker-steamcmd/actions/workflows/ci-master-pr.yml)
+[![docker-tag](https://img.shields.io/docker/v/startersclan/steamcmd/latest?label=image%20tag&style=flat-square)](https://hub.docker.com/r/startersclan/steamcmd/tags)
+[![docker-size](https://img.shields.io/docker/image-size/startersclan/steamcmd/latest?style=flat-square)](https://hub.docker.com/r/startersclan/steamcmd/tags)
 
 Dockerized [`steamcmd`](https://developer.valvesoftware.com/wiki/SteamCMD) with dependencies for building [**Source**](https://developer.valvesoftware.com/wiki/Source) / [**Goldsource**](https://developer.valvesoftware.com/wiki/GoldSrc) [dedicated server images](https://github.com/startersclan/docker-sourceservers).
 
@@ -20,4 +14,4 @@ Dockerized [`steamcmd`](https://developer.valvesoftware.com/wiki/SteamCMD) with 
 [dockerfile-git-src]: https://github.com/startersclan/docker-steamcmd/blob/master/variants/git/Dockerfile
 [dockerfile-minimal-src]: https://github.com/startersclan/docker-steamcmd/blob/master/variants/minimal/Dockerfile
 
-[![badge-custom-dockerhub-repo-img][]][badge-image-dockerhub-src]
+[![docker-repository](https://img.shields.io/badge/docker%20hub-startersclan/steamcmd-blue.svg?logo=docker&logoColor=2596EC&color=1B2838&label=&labelColor=&style=popout-square)](https://hub.docker.com/r/startersclan/steamcmd)
