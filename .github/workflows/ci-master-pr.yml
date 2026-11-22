@@ -12,15 +12,15 @@ on:
 
 jobs:
   linux:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     strategy:
       matrix:
         BASE_IMAGE_NAME: [ubuntu]
-        BASE_IMAGE_TAG: [focal-20231003]
+        BASE_IMAGE_TAG: [noble-20261110.1]
         BUILD_IMAGE_VARIANT: [git, minimal]
         include:
-        - BASE_IMAGE_TAG: focal-20231003
+        - BASE_IMAGE_TAG: noble-20261110.1
           BUILD_IMAGE_VARIANT: git
           TAG_LATEST: true
     env:
