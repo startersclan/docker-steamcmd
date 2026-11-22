@@ -7,13 +7,14 @@ ARG STEAMCMD_AR_URL=https://steamcdn-a.akamaihd.net/client/installer/steamcmd_li
 
 WORKDIR $STEAMCMD_DIR
 
-RUN apt-get update \
+RUN dpkg --add-architecture i386 \
+    && apt-get update \
     && apt-get install -y \
         locales \
         ca-certificates \
         curl \
         # Game dependencies
-        lib32gcc1 \
+        libgcc-s1:i386 \
         lib32stdc++6 \
     && rm -rf /var/lib/apt/lists/* \
     && locale-gen en_US.UTF-8 \
