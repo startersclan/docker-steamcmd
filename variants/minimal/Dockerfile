@@ -9,12 +9,15 @@ WORKDIR $STEAMCMD_DIR
 
 RUN dpkg --add-architecture i386 \
     && apt-get update \
-    && apt-get install -y \
+    && apt-get install -y --no-install-recommends \
         locales \
         ca-certificates \
         curl \
+        wget \
         # Game dependencies
+        libgcc-s1:amd64 \
         libgcc-s1:i386 \
+        libstdc++6 \
         lib32stdc++6 \
     && rm -rf /var/lib/apt/lists/* \
     && locale-gen en_US.UTF-8 \
