@@ -18,6 +18,7 @@ RUN dpkg --add-architecture i386 \
         libgcc-s1:amd64 \
         libgcc-s1:i386 \
         libstdc++6 \
+        libstdc++6:i386 \
         lib32stdc++6 \
     && rm -rf /var/lib/apt/lists/* \
     && locale-gen en_US.UTF-8 \
